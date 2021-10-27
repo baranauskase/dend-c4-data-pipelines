@@ -41,6 +41,14 @@ class SqlQueries:
         FROM songplays
     """)
 
+    qa_checks = (
+        'SELECT COUNT(*) FROM public.artists',
+        'SELECT COUNT(*) FROM public.songplays',
+        'SELECT COUNT(*) FROM public.songs',
+        'SELECT COUNT(*) FROM public."time"',
+        'SELECT COUNT(*) FROM public.users'
+    )
+
     ddl = ("""
         CREATE TABLE IF NOT EXISTS public.artists (
             artistid varchar(256) NOT NULL,
