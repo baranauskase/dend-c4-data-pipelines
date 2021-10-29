@@ -22,8 +22,10 @@ class RunDDLOperator(BaseOperator):
         self.ddl_sql = ddl_sql
 
     def execute(self, context):
+        self.log.info('Running DDL queries.')
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         formatted_sql = RunDDLOperator.ddl_sql_transaction.format(
             self.ddl_sql
         )
+        
         redshift.run(formatted_sql)

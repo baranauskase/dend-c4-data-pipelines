@@ -15,10 +15,11 @@ default_args = {
     'owner': 'ebaranauskas',
     'start_date': datetime(2019, 1, 12),
     'depends_on_past': False,
-    'retries': 0,
+    'retries': 3,
     'retry_delay': timedelta(minutes=5),
     'email_on_retry': False,
-    'catchup': False
+    'catchup': False,
+    'truncate_load_dim': False 
 }
 
 
@@ -26,7 +27,7 @@ dag = DAG(
     'sparkify_analysis',
     default_args=default_args,
     description='Load and transform data in Redshift with Airflow',
-    schedule_interval=None, #'0 * * * *'
+    schedule_interval='@hourly'
 )
 
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
@@ -56,7 +57,7 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     redshift_role='redshift_role',
     table='public.staging_songs',
     s3_bucket='udacity-dend',
-    s3_key='song-data/A/A/A'
+    s3_key='song-data'
 )
 
 load_songplays_table = LoadFactOperator(

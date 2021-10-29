@@ -22,11 +22,11 @@ class DataQualityOperator(BaseOperator):
         for q in self.qa_checks[0]:
             records = redshift.get_records(q)
             if len(records) != 1:
-                raise ValueError(f'Data quality check failed. Received {len(records)} rows for query: {q}')
+                raise ValueError(f'Data quality check failed. Received {len(records)} rows.')
             
             for rec in records:
                 for val in rec:
                     if not bool(val):
-                        raise ValueError(f'Data quality check failed. Bool eval failed for query: {q}')
+                        raise ValueError(f'Data quality check failed. Bool eval failed.')
 
-            self.log.info(f'Data quality passed for query: {q}')
+            self.log.info(f'Data quality checks passed.')
